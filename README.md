@@ -2,9 +2,9 @@
 Projeto Final AceleraDev para a aceleração de Data Science feita na plataforma CodeNation 2020
 
 Os membros da squad:
- - Feliphe Pereira
- - Igor Abritta
- - Mariana Migliorini
+ - [Feliphe Pereira](https://github.com/FeliphePereira)
+ - [Igor Abritta](https://github.com/igorabritta)
+ - [Mariana Migliorini](https://github.com/marimigliorini)
 
 1 - Será descrito aqui o processo de desenvolvimento do projeto que a squad utilizou para resolver o problema;
 
