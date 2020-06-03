@@ -1,15 +1,23 @@
 import pandas as pd
 import numpy as np
 
-def preprocessamento(filepath, porc = 30, fillna_param = 'zero'):
+def loading_data(filepath)
+    """
+     filepath : string
+            The path for the .csv file to be analyzed
+    """
+    df_file=pd.read_csv(filepath,index_col=0)
+    return df_file
+
+def preprocessamento(file_path,porc = 30, fillna_param = 'zero'):
     
     """
     Return a pandas matrix after some preprocessing
     
     Parameters
     ----------
-    filepath : string
-            The path for the .csv file to be analyzed
+    file_path : string
+             The Data Frame to be analyzed
             
     porc : int, optional
         porcentage of missing data that would be allowed for
@@ -26,7 +34,7 @@ def preprocessamento(filepath, porc = 30, fillna_param = 'zero'):
         Pandas matrix contain all the lines but filtered some columns.
     """
     
-    EM=pd.read_csv(filepath,index_col=0)
+    EM=file_path
     missing=((EM.isna().sum()/EM.shape[0]*100))
     types=EM.dtypes
     columns=EM.columns
