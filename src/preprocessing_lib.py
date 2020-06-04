@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def loading_data(filepath)
+def loading_data(filepath):
     """
      filepath : string
             The path for the .csv file to be analyzed
@@ -21,12 +21,12 @@ def preprocessamento(file_path,porc = 30, fillna_param = 'zero'):
             
     porc : int, optional
         porcentage of missing data that would be allowed for
-        a column to not be discarted. ´default = 30´
+        a column to not be discarted. 'default = 30'
         
     fillna_param : string, optional
         This parameters chose the 'fill' method for the columns that had passed
         porcentage threshold. The options are: 'zero', 'media' and 'mediana'.
-        ´default = 'zero'´
+        'default = "zero"'
     
     Returns
     -------
@@ -40,16 +40,17 @@ def preprocessamento(file_path,porc = 30, fillna_param = 'zero'):
     columns=EM.columns
     tent=pd.DataFrame({'column':columns,'missing':missing,'type':types})
     tent2=tent.loc[tent['missing'] < porc ]
-    global EMS
     if fillna_param == 'zero':
-         EMS= EM[tent2.column].fillna(0).select_dtypes(include=['float64','int64'])
+         filtered_df= EM[tent2.column].fillna(0).select_dtypes(include=['float64','int64'])
     elif fillna_param == 'media':
         E= EM[tent2.column].select_dtypes(include=['float64','int64'])
         media=E.mean()
-        EMS=E.fillna(media)
+        filtered_df=E.fillna(media)
     elif fillna_param == 'mediana':
         E= EM[tent2.column].select_dtypes(include=['float64','int64'])
         mediana=E.median()
-        EMS=E.fillna(mediana)
-    filtered_df = EMS
+        filtered_df=E.fillna(mediana)
+    else:
+        filtered_df = 0
+        print("Fill method wrong or not implemented yet")
     return filtered_df    
