@@ -77,7 +77,7 @@ def portfolio_clusters(market_labels, portfolio):
     
     portfolio_labels = pd.DataFrame()
     portfolio_labels['id'] = portfolio.id
-    portfolio_labels['label'] = np.array(market_labels['label'][market_labels['id'].isin(port.id)])
+    portfolio_labels['label'] = np.array(market_labels['label'][market_labels['id'].isin(portfolio.id)])
     return portfolio_labels
 
 
@@ -100,6 +100,6 @@ def recommend_leads(portfolio_labels, market_labels):
         Pandas matrix containing the recommended leads.
     """
     
-    leads_recommended = pd.DataFrame(market_labels['id'][market_labels['label'] == int(port.label.mode())])
-    leads_recommended.drop(leads_rec[leads_rec['id'].isin(port['id'])].index, axis=0, inplace=True)
+    leads_recommended = pd.DataFrame(market_labels['id'][market_labels['label'] == int(portfolio_labels.label.mode())])
+    leads_recommended.drop(leads_recommended[leads_recommended['id'].isin(portfolio_labels['id'])].index, axis=0, inplace=True)
     return leads_recommended
