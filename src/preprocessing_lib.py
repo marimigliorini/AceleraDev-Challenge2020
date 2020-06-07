@@ -41,7 +41,7 @@ def preprocessamento(file_path,porc = 30, fillna_param = 'zero'):
     tent=pd.DataFrame({'column':columns,'missing':missing,'type':types})
     tent2=tent.loc[tent['missing'] < porc ]
     if fillna_param == 'zero':
-         filtered_df= EM[tent2.column].fillna(0).select_dtypes(include=['float64','int64'])
+        filtered_df= EM[tent2.column].fillna(0).select_dtypes(include=['float64','int64'])
     elif fillna_param == 'media':
         E= EM[tent2.column].select_dtypes(include=['float64','int64'])
         media=E.mean()
