@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import folium
+from folium import plugins
 
 def describe_column(col):
     """
@@ -63,3 +65,26 @@ def plotcorr(df, var1, var2, colorvar='none'):
     fig.show()
     corr2 = corr.iloc[0,1]
     return corr2
+
+
+def brazilheatmap(mapcoords):
+    
+    """
+    Return a heatmap zoomed on Brazil with the position of the companies in the list
+    
+    Parameters
+    ----------
+    mapcoords : list
+        list of the coordinates(lat,long) corresponding to each company to plot on the map.
+            
+    
+    Returns
+    -------
+    mapa : object
+    """
+    
+    mapa = folium.Map(location=[-8.788497,-53.879873],tiles='Stamen Terrain',zoom_start=5)
+
+    mapa.add_child(plugins.HeatMap(mapcoords))
+    mapa
+    return mapa
