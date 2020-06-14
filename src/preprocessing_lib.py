@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 
+from sklearn.preprocessing import MinMaxScaler
+
 def loading_data(filepath):
     """
      filepath : string
@@ -96,3 +98,54 @@ def process(df):
     
     df_processed = df
     return df_processed
+
+def transform(df):
+    
+    """
+    Return a numpy array with the dataframe values after some transformations
+    
+    Parameters
+    ----------
+    df : pandas dataframe
+             The Data Frame to be transformed
+    
+    Returns
+    -------
+    df_transformed : numpy array
+        Numpy array contain all the lines and columns after some transformations.
+    """
+    
+    cat_idade = ['<= 1', '1 a 5', '5 a 10', '10 a 15', '15 a 20', '> 20']
+    cat_saude = ['SEM INFORMACAO', 'VERMELHO', 'LARANJA', 'AMARELO', 'CINZA', 'AZUL', 'VERDE']
+    cat_nivel = ['SEM INFORMACAO', 'MUITO BAIXA', 'BAIXA', 'MEDIA', 'ALTA']
+    cat_faturamento = ['SEM INFORMACAO', 'ATE R$ 81.000,00', 'DE R$ 81.000,01 A R$ 360.000,00', 
+              'DE R$ 360.000,01 A R$ 1.500.000,00', 'DE R$ 1.500.000,01 A R$ 4.800.000,00', 
+              'DE R$ 4.800.000,01 A R$ 10.000.000,00','DE R$ 10.000.000,01 A R$ 30.000.000,00',
+              'DE R$ 30.000.000,01 A R$ 100.000.000,00','DE R$ 100.000.000,01 A R$ 300.000.000,00',
+              'DE R$ 300.000.000,01 A R$ 500.000.000,00','DE R$ 500.000.000,01 A 1 BILHAO DE REAIS',
+              'ACIMA DE 1 BILHAO DE REAIS']
+    
+    cols_cat = ['idade_emp_cat', 'de_saude_tributaria', 'de_nivel_atividade',
+               'de_faixa_faturamento_estimado', 'de_faixa_faturamento_estimado_grupo']
+    df[cols_cat] = df[cols_cat].astype('category')
+    
+    categories = [cat_idade, cat_saude, cat_nivel, cat_faturamento, cat_faturamento]
+    
+    for i in range(len(cols_cat)):
+        df[cols_cat[i]].cat.reorder_categories(categories[i],inplace=True)
+        df[cols_cat[i]] = df[cols_cat[i]].cat.codes
+        
+    col_bool = df.select_dtypes(include=['bool']).columns
+    df[col_bool] = df[col_bool].astype('int8')
+    
+    cols_dummies = ['sg_uf', 'natureza_juridica_macro', 'setor']
+    for i in cols_dummies:
+        df = df.merge(pd.get_dummies(df[i]), left_index=True, right_index=True)
+        
+    df.drop(cols_dummies, axis=1, inplace=True)
+    
+    df['qt_filiais'] = np.log(df['qt_filiais']+1)
+    
+    df_transformed = MinMaxScaler().fit_transform(df)
+
+    return df_transformed
