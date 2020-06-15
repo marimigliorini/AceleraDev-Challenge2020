@@ -39,7 +39,7 @@ def getting_latlong(path):
     
     
 
-def getlatlong_list(df, coord_micro, flag_miss=False):
+def getlatlong_list(df, coord_micro, flag_ramo=False, flag_miss=False):
     
     """
     Return a list with the coordinates(lat,long) of each company
@@ -63,12 +63,17 @@ def getlatlong_list(df, coord_micro, flag_miss=False):
     
     mapcoords = []
     n = 0
-    for micro in df.nm_micro_regiao:
-        coord = coord_micro[coord_micro['nm_micro'] == micro][['lat', 'lng']]
-
+    for ind in df.index:
+        coord = coord_micro[coord_micro['nm_micro'] == df.nm_micro_regiao[ind]][['lat', 'lng']]
+        
         if not coord.empty:
-            mapcoords.append([coord['lat'].values[0]-random.uniform(0, 0.25),
-                              coord['lng'].values[0]-random.uniform(0, 0.25)]) # only to not plot at the exactly same position
+            if flag_ramo:
+                mapcoords.append([coord['lat'].values[0]-random.uniform(0, 0.25),
+                                  coord['lng'].values[0]-random.uniform(0, 0.25),
+                                'id:'+df.id[ind][:10]+' ramo:'+df.de_ramo[ind]]) # only to not plot at the exactly same position
+            else:
+                mapcoords.append([coord['lat'].values[0]-random.uniform(0, 0.25),
+                                  coord['lng'].values[0]-random.uniform(0, 0.25)])
         else:
             n+=1
     print("%d companies without information about the belonging micro region" % n)
