@@ -88,3 +88,41 @@ def brazilheatmap(mapcoords):
     mapa.add_child(plugins.HeatMap(mapcoords))
     mapa
     return mapa
+
+def braziliconmap(mapcoords_Old, mapcoords_New = 'None'):
+    
+    """
+    Return a heatmap zoomed on Brazil with the position of the companies in the list
+    
+    Parameters
+    ----------
+    mapcoords_Old : list
+        list of the coordinates(lat,long) corresponding to each company to plot on the map.
+    mapcoords_New : list
+        list of the coordinates(lat,long) corresponding to each company to plot on the map.
+            
+    
+    Returns
+    -------
+    markmapa : object
+    """
+
+    # Mostra marcadores com informação do id e ramo da empresa de sugestão.
+    markmapa = folium.Map(location=[-8.788497, -53.879873],
+                      tiles='OpenStreetMap', zoom_start=5)
+
+    tooltip = 'Click for info'
+    #clientes atuais
+    for mark in mapcoords_Old: ## plot the companies already at client lists
+        folium.Marker([mark[0], mark[1]],
+                     popup = mark[2],
+                     tooltip = mark[2],
+                     icon=folium.Icon(icon='ok', color='green')).add_to(markmapa)
+
+    if mapcoords_New != 'None': #plot the companies suggested by the algorithm
+        for mark in mapcoords_New:
+            folium.Marker([mark[0], mark[1]], popup=mark[2], tooltip=mark[2]).add_to(markmapa)
+
+    #markmapa.add_child(plugins.HeatMap(map_coord, gradient = {0.4: '#00ced1',  1: '#59fea0'}))
+    markmapa
+    return markmapa
