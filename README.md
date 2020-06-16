@@ -26,7 +26,7 @@ Os membros da squad:
 
 In order to run this code you first need to clone the repository in your machine following the code below:
 
-`git clone https://github.com/igorabritta/AceleraDev-Challenge2020.git`
+`git clone https://github.com/marimigliorini/AceleraDev-Challenge2020.git`
 
 We higly recommend to use a virtual environment with **Python 3** and then install the requeriments using the following code:
 
