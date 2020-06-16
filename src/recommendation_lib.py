@@ -81,7 +81,7 @@ def portfolio_clusters(market_labels, portfolio):
     portfolio_labels['label'] = np.array(market_labels['label'][market_labels['id'].isin(portfolio.id)])
     return portfolio_labels
 
-def recommend_leads(portfolio, df, market_labels):
+def recommend_leads(portfolio, df, market_labels, n_leads):
     
     """
     Return a pandas dataframe with the recommended leads given a portfolio.
@@ -128,7 +128,7 @@ def recommend_leads(portfolio, df, market_labels):
     
     cosine_sim = pd.DataFrame(cosine_similarity(portfolio_features, leads_features))
     cosine_sim = cosine_sim[cosine_sim >= 0.9].fillna(0)
-    recommended_index = cosine_sim[cosine_sim > 0].count().sort_values(ascending=False)[0:5000].index
+    recommended_index = cosine_sim[cosine_sim > 0].count().sort_values(ascending=False)[0:n_leads].index
 
     leads_recommended = leads_clusters.loc[recommended_index]
     return leads_recommended
