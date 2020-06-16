@@ -81,7 +81,7 @@ def portfolio_clusters(market_labels, portfolio):
     portfolio_labels['label'] = np.array(market_labels['label'][market_labels['id'].isin(portfolio.id)])
     return portfolio_labels
 
-def recommend_leads(portfolio, df, market_labels, n_leads):
+def recommend_leads(portfolio, df, market_labels, n_leads=5000):
     
     """
     Return a pandas dataframe with the recommended leads given a portfolio.
@@ -96,11 +96,14 @@ def recommend_leads(portfolio, df, market_labels, n_leads):
             
     market_labels : pandas dataframe
         The dataframe with market leads and respective cluster labels
+        
+    n_leads : int
+        Number of reccomended leads
     
     Returns
     -------
     leads_recommended : pandas matrix
-        Pandas matrix containing 5000 recommended leads.
+        Pandas matrix containing the recommended leads.
     """
     
     cols_dummies = ['sg_uf', 'natureza_juridica_macro', 'setor']
